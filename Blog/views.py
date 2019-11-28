@@ -1,7 +1,7 @@
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
@@ -9,14 +9,10 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from .forms import *
 from .tokens import account_activation_token
+from .models import Blog
 
 
 def register(request):
-    """
-	This function checks the data entered by the user and if the data is valid registers him/her
-	:param request:
-	:return: template for get request or redirect on post
-	"""
 
     if request.user.is_authenticated:
         return redirect('home')
@@ -44,7 +40,7 @@ def register(request):
                 'token': account_activation_token.make_token(user),
             })
 
-            user.email_user(subject, message)
+            user.email_user(subject, message="", html_message=message)
 
             return redirect('home')
         else:
@@ -60,8 +56,8 @@ def login_request(request):
     :return: render template if get or login and redirect if post
     """
 
-    # if request.user.is_authenticated:
-    #    return redirect('home')
+    if request.user.is_authenticated:
+            return redirect('home')
 
     message = None
     if request.method == 'GET':
@@ -96,7 +92,11 @@ def logout_request(request):
 
 @login_required()
 def home(request):
-    return HttpResponse('This is the home page')
+    return render(request, 'home.html')
+
+
+def total(request):
+    return JsonResponse({'count': list(Blog.objects.values_list('id', flat=True))})
 
 
 def activate(request, uidb64, token):

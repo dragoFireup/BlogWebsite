@@ -25,7 +25,7 @@ SECRET_KEY = 'r9@#3fbx)0#^j_qn42*2%a2&)ib(flq^6mr3m0kc!i^+oj68qa'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 LOGIN_URL = '/login'
 # Application definition
@@ -133,3 +133,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'forinternpurposes@gmail.com'
 EMAIL_HOST_PASSWORD = 'qwerty@12345'
+
+if DEBUG:
+    import mimetypes
+    mimetypes.add_type("application/javascript", ".js", True)

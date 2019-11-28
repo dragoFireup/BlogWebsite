@@ -1,43 +1,44 @@
-{% extends "base.html" %}
-
-{% block title %}Register{% endblock %}
-
-{% block style %}
-.form {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 300px;
-    margin-top: 10vh;
-}
-{% endblock %}
-
-
-{% block content %}
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <style type="text/css">
+        .form {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 300px;
+            margin-top: 10vh;
+        }
+    </style>
+</head>
+<body>
 <div class="form">
     <span class="title">
         Register
     </span>
     <div class="box is-box-color">
-        <form action="register" method="post">
+        <form method="post">
             {% csrf_token %}
             {% for field in form %}
-                <div class="field">
-                    <label class="label">{{ field.label }}</label>
-                    <div class="control">
-                        {{ field }}
-                    </div>
-                    {% if field.errors %}
-                        {% for error in field.errors %}
-                            <p class="help is-danger">{{ error }}</p>
-                        {% endfor %}
-                    {% endif %}
+            <div class="field">
+                <label class="label">{{ field.label }}</label>
+                <div class="control">
+                    {{ field }}
                 </div>
+                {% if field.errors %}
+                {% for error in field.errors %}
+                <p class="help is-danger">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
             {% endfor %}
             <button class="button is-info" type="submit">Register</button>
         </form>
         <a href="/login">Have an account? Login</a>
     </div>
 </div>
-{% endblock %}
+</body>
+</html>
