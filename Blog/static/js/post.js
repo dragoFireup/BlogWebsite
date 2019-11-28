@@ -5,16 +5,18 @@ template.innerHTML = `
 		.card {
 			margin: 20px;
 		}
+		.post-author, .post-time {
+		    display: block;
+		}
+		.card-header {
+		    padding: .75rem 1rem;
+		    display: block;
+		}
 	</style>
 		<div class="card">
 			<header class="card-header">
-				<p class="post-author card-header-title">
-				</p>
-				<a href="#" class="card-header-icon" aria-label="more options">
-					<span class="icon">
-						<i class="fas fa-angle-down" aria-hidden="true"></i>
-					</span>
-				</a>
+                <h6 class="post-author title is-size-4"></h6>
+                <time class="post-time subtitle is-size-7"></time>
 			</header>
 			<div class="card-content">
 				<div class="content">
@@ -49,10 +51,13 @@ class PostElement extends HTMLElement {
     }
 
     addPostData(data) {
-    	let tags = ['author', 'text'];
+    	let tags = ['author', 'text', 'time'];
     	for(var i=0; i<tags.length; i++)
     		this.shadowRoot.querySelectorAll('.post-'+tags[i]).forEach(e => e.innerHTML = data[tags[i]]);
-    	this.shadowRoot.querySelector("#postImage").setAttribute('src', 'static/postimages/'+data['image']);
+    	if(data.hasOwnProperty('image'))
+    	    this.shadowRoot.querySelector("#postImage").setAttribute('src', 'static/'+data['image']);
+    	else
+    	    this.shadowRoot.querySelector(".image").setAttribute('style', 'display: none');
     }
 
     getPostData(postId) {

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
@@ -100,13 +102,19 @@ def total(request):
 
 
 def event(request, id):
-    event = Blog.objects.get(id=id)
-    user = event.author
+    eventData = Blog.objects.get(id=id)
+    user = eventData.author
+    time = datetime.strftime(eventData.published_date, "%a, %d %b %Y")
     data = {
         'author': user.username,
-        'text': event.text,
-        'image': event.image.name
+        'text': eventData.text,
+        'time': time,
     }
+
+    if eventData.image.name != 'default.jpg':
+        data['image'] = eventData.image.name
+
+    print(data)
     return JsonResponse(data)
 
 
