@@ -99,6 +99,17 @@ def total(request):
     return JsonResponse({'count': list(Blog.objects.values_list('id', flat=True))})
 
 
+def event(request, id):
+    event = Blog.objects.get(id=id)
+    user = event.author
+    data = {
+        'author': user.username,
+        'text': event.text,
+        'image': event.image.name
+    }
+    return JsonResponse(data)
+
+
 def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))

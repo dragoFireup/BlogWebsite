@@ -18,7 +18,7 @@ template.innerHTML = `
 			</header>
 			<div class="card-content">
 				<div class="content">
-					<p class="post-details">
+					<p class="post-text">
 					</p>
 				</div>
 			</div>
@@ -46,16 +46,13 @@ class PostElement extends HTMLElement {
         let postId = this.getAttribute("id");
        	let postData = this.getPostData(postId);
        	this.addPostData(postData);
-
-       	this.shadowRoot.querySelector('.card').addEventListener('click', e => this.shadowRoot.querySelector('.modal').classList.add('is-active'));
-       	this.shadowRoot.querySelector('.delete').addEventListener('click', e => this.shadowRoot.querySelector('.modal').classList.remove('is-active'));
     }
 
     addPostData(data) {
-    	let tags = ['author', 'details'];
+    	let tags = ['author', 'text'];
     	for(var i=0; i<tags.length; i++)
     		this.shadowRoot.querySelectorAll('.post-'+tags[i]).forEach(e => e.innerHTML = data[tags[i]]);
-    	this.shadowRoot.querySelector("#postImage").setAttribute('src', 'static/images/'+data['image']);
+    	this.shadowRoot.querySelector("#postImage").setAttribute('src', 'static/postimages/'+data['image']);
     }
 
     getPostData(postId) {
@@ -68,6 +65,7 @@ class PostElement extends HTMLElement {
                 postData = data;
             }
         });
+        console.log(postData);
         return postData;
     }
 }
