@@ -8,15 +8,19 @@ template.innerHTML = `
 		.post-author, .post-time {
 		    display: block;
 		}
-		.card-header {
-		    padding: .75rem 1rem;
+		.card-header-title {
 		    display: block;
 		}
 	</style>
 		<div class="card">
 			<header class="card-header">
-                <h6 class="post-author title is-size-4"></h6>
-                <time class="post-time subtitle is-size-7"></time>
+			    <div class="card-header-title">
+                    <h6 class="post-author title is-size-4"></h6>
+                    <time class="post-time subtitle is-size-7"></time>
+                </div>
+                <div class="card-header-icon">
+                    <button class="button is-danger" id="delete">Delete</button>
+                </div>
 			</header>
 			<div class="card-content">
 				<div class="content">
@@ -48,6 +52,20 @@ class PostElement extends HTMLElement {
         let postId = this.getAttribute("id");
        	let postData = this.getPostData(postId);
        	this.addPostData(postData);
+
+       	this.shadowRoot.querySelector("#delete").addEventListener('click', e => {
+       	    let edata;
+       	    $.ajax({
+       	        async: false,
+       	        type: 'GET',
+       	        url: '/delete/'+postId,
+       	        success: function(data) {
+       	            edata = data;
+       	        }
+       	    })
+       	    if(edata.hasOwnProperty('success'))
+       	        this.setAttribute('style', 'display: none');
+       	})
     }
 
     addPostData(data) {
@@ -55,7 +73,7 @@ class PostElement extends HTMLElement {
     	for(var i=0; i<tags.length; i++)
     		this.shadowRoot.querySelectorAll('.post-'+tags[i]).forEach(e => e.innerHTML = data[tags[i]]);
     	if(data.hasOwnProperty('image'))
-    	    this.shadowRoot.querySelector("#postImage").setAttribute('src', 'media/'+data['image']);
+    	    this.shadowRoot.querySelector("#postImage").setAttribute('src', '../media/'+data['image']);
     	else
     	    this.shadowRoot.querySelector(".image").setAttribute('style', 'display: none');
     }

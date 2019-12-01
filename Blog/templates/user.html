@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}{{ request.user|upper }}{% endblock %}
+
+{% block scripts %}<script type="module" src="{% static 'js/userpost.js' %}"></script>{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div id="posts" class="column is-half">
+
+    </div>
+</div>
+{% endblock %}

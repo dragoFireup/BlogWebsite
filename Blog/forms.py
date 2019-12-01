@@ -26,4 +26,14 @@ class LoginForm(AuthenticationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password', )
+        fields = ('username', 'password',)
+
+
+class AddPostForm(forms.ModelForm):
+    text = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'textarea', 'placeholder': 'Enter your Post data here'}))
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'file-input'}), required=False)
+
+    class Meta:
+        model = Blog
+        fields = ('text', 'image')

@@ -15,7 +15,6 @@ from .models import Blog
 
 
 def register(request):
-
     if request.user.is_authenticated:
         return redirect('home')
 
@@ -59,7 +58,7 @@ def login_request(request):
     """
 
     if request.user.is_authenticated:
-            return redirect('home')
+        return redirect('home')
 
     message = None
     if request.method == 'GET':
@@ -96,11 +95,11 @@ def logout_request(request):
 def home(request):
     return render(request, 'home.html')
 
-
+@login_required()
 def total(request):
     return JsonResponse({'count': list(Blog.objects.values_list('id', flat=True))})
 
-
+@login_required()
 def event(request, id):
     eventData = Blog.objects.get(id=id)
     user = eventData.author
@@ -111,11 +110,53 @@ def event(request, id):
         'time': time,
     }
 
-    if eventData.image.name != 'default.jpg':
+    if eventData.image.name:
         data['image'] = eventData.image.name
 
-    print(data)
     return JsonResponse(data)
+
+
+@login_required()
+def addpost(request):
+    if request.method == 'GET':
+        form = AddPostForm()
+
+    elif request.method == 'POST':
+        form = AddPostForm(request.POST, request.FILES)
+
+        # print([(field.label, field.errors) for field in form])
+        # print(form.cleaned_data)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.publish()
+            post.save()
+            return redirect('home')
+        form = AddPostForm()
+    return render(request, 'addpost.html', {'form': form})
+
+
+@login_required()
+def user_total(request):
+    return JsonResponse({'count': list(Blog.objects.filter(author=request.user).values_list('id', flat=True))})
+
+
+@login_required()
+def user(request):
+    return render(request, 'user.html')
+
+@login_required()
+def delete(request, id):
+
+    post = Blog.objects.get(id=id)
+    author = post.author
+    #print(request.user == author)
+    if request.user != author:
+        return JsonResponse({})
+    post.delete()
+    return JsonResponse({'success': True})
+
 
 
 def activate(request, uidb64, token):
