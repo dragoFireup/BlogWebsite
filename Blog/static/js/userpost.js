@@ -88,7 +88,6 @@ class PostElement extends HTMLElement {
                 postData = data;
             }
         });
-        console.log(postData);
         return postData;
     }
 }
@@ -98,10 +97,15 @@ class PostElement extends HTMLElement {
         "total/",
         function(data) {
             data = data['count']
-            for (var i=0; i<data.length; i++) {
-                var e = document.createElement('post-element');
-                e.setAttribute("id", data[i]);
-                document.getElementById("posts").appendChild(e);
+            console.log(data)
+            if(data==0) {
+                document.getElementById("posts").innerHTML = 'asfdasfdasfa'
+            } else {
+                for (var i=0; i<data.length; i++) {
+                    var e = document.createElement('post-element');
+                    e.setAttribute("id", data[i]);
+                    document.getElementById("posts").appendChild(e);
+                }
             }
         }
     )

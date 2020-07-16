@@ -1,1 +1,6 @@
+# Venv files
 venv/
+
+# pycache
+__pycache__/
+*.pyc
