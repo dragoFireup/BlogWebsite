@@ -99,7 +99,7 @@ class PostElement extends HTMLElement {
             data = data['count']
             console.log(data)
             if(data==0) {
-                document.getElementById("posts").innerHTML = 'asfdasfdasfa'
+                document.getElementById("posts").innerHTML = ''
             } else {
                 for (var i=0; i<data.length; i++) {
                     var e = document.createElement('post-element');

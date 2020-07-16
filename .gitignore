@@ -4,3 +4,6 @@ venv/
 # pycache
 __pycache__/
 *.pyc
+
+# SQLITE
+db.sqlite3
