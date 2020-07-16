@@ -4,6 +4,9 @@
 
 **The aim of this project was to create a web application to represent the use of database and the python programming.**
 
+![Home page](https://github.com/dragoFireup/BlogWebsite/blob/master/home.png)
+
+![Create post](https://github.com/dragoFireup/BlogWebsite/blob/master/add_post.png)
 ### Application details
 
 <ul>
