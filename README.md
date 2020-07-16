@@ -2,7 +2,7 @@
 
 <i>This was part of my college lab work</i>
 
-**The aim of this project was to create a web application to represent the use of database and the python programming.**
+**The aim of this project was to create a web application to represent the use of databases and Python programming.**
 
 ![Home page](https://github.com/dragoFireup/BlogWebsite/blob/master/home.png)
 
